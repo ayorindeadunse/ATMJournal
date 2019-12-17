@@ -1,0 +1,298 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ATMArchiverModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="ATMArchiverModelStoreContainer">
+          <EntitySet Name="AJ_AuditTrail" EntityType="ATMArchiverModel.Store.AJ_AuditTrail" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="AJ_UsersTable" EntityType="ATMArchiverModel.Store.AJ_UsersTable" store:Type="Tables" store:Schema="dbo" store:Name="AJ_UsersTable">
+            <DefiningQuery>SELECT 
+      [AJ_UsersTable].[UserID] AS [UserID], 
+      [AJ_UsersTable].[Username] AS [Username], 
+      [AJ_UsersTable].[BranchorDepartment] AS [BranchorDepartment], 
+      [AJ_UsersTable].[AccessType] AS [AccessType], 
+      [AJ_UsersTable].[UserStatus] AS [UserStatus], 
+      [AJ_UsersTable].[CreatedBy] AS [CreatedBy], 
+      [AJ_UsersTable].[DateCreated] AS [DateCreated]
+      FROM [dbo].[AJ_UsersTable] AS [AJ_UsersTable]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="atm_ip_address" EntityType="ATMArchiverModel.Store.atm_ip_address" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="new_atm_log_path" EntityType="ATMArchiverModel.Store.new_atm_log_path" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="runtime_errors" EntityType="ATMArchiverModel.Store.runtime_errors" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="WemaBranches" EntityType="ATMArchiverModel.Store.WemaBranches" store:Type="Tables" store:Schema="dbo" store:Name="WemaBranches">
+            <DefiningQuery>SELECT 
+      [WemaBranches].[BranchID] AS [BranchID], 
+      [WemaBranches].[BranchCode] AS [BranchCode], 
+      [WemaBranches].[BranchDescription] AS [BranchDescription], 
+      [WemaBranches].[BranchShortCode] AS [BranchShortCode]
+      FROM [dbo].[WemaBranches] AS [WemaBranches]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+        <EntityType Name="AJ_AuditTrail">
+          <Key>
+            <PropertyRef Name="AuditID" />
+          </Key>
+          <Property Name="AuditID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="varchar" MaxLength="50" />
+          <Property Name="FileTitle" Type="varchar" MaxLength="50" />
+          <Property Name="DBAction" Type="varchar" MaxLength="50" />
+          <Property Name="Description" Type="varchar" />
+          <Property Name="DateCreated" Type="datetime" />
+          <Property Name="IPAddress" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'ATMArchiver.dbo.AJ_UsersTable' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="AJ_UsersTable">
+          <Key>
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="BranchorDepartment" />
+            <PropertyRef Name="AccessType" />
+            <PropertyRef Name="UserStatus" />
+            <PropertyRef Name="CreatedBy" />
+            <PropertyRef Name="DateCreated" />
+          </Key>
+          <Property Name="UserID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="varchar" Nullable="false" MaxLength="100" />
+          <Property Name="BranchorDepartment" Type="varchar" Nullable="false" MaxLength="150" />
+          <Property Name="AccessType" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="UserStatus" Type="bit" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="DateCreated" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="atm_ip_address">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ipaddress" Type="nvarchar" MaxLength="20" />
+          <Property Name="branch" Type="nvarchar" MaxLength="5" />
+          <Property Name="atm_name" Type="varchar(max)" />
+          <Property Name="terminalid" Type="varchar(max)" />
+          <Property Name="createdby" Type="varchar" MaxLength="50" />
+          <Property Name="DateCreated" Type="datetime" />
+        </EntityType>
+        <EntityType Name="new_atm_log_path">
+          <Key>
+            <PropertyRef Name="path_id" />
+          </Key>
+          <Property Name="path_id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="branch_code" Type="varchar" MaxLength="50" />
+          <Property Name="year" Type="nvarchar" MaxLength="4" />
+          <Property Name="filename" Type="nvarchar(max)" />
+          <Property Name="new_file_path" Type="varchar(max)" />
+          <Property Name="ipaddress" Type="varchar" MaxLength="50" />
+          <Property Name="terminalid" Type="varchar(max)" />
+          <Property Name="datecreated" Type="datetime" />
+        </EntityType>
+        <EntityType Name="runtime_errors">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="message" Type="varchar(max)" />
+          <Property Name="date_created" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'ATMArchiver.dbo.WemaBranches' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="WemaBranches">
+          <Key>
+            <PropertyRef Name="BranchID" />
+            <PropertyRef Name="BranchShortCode" />
+          </Key>
+          <Property Name="BranchID" Type="int" Nullable="false" />
+          <Property Name="BranchCode" Type="varchar" MaxLength="50" />
+          <Property Name="BranchDescription" Type="varchar(max)" />
+          <Property Name="BranchShortCode" Type="varchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ATMArchiverModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ATMArchiverEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="AJ_AuditTrail" EntityType="ATMArchiverModel.AJ_AuditTrail" />
+          <EntitySet Name="AJ_UsersTable" EntityType="ATMArchiverModel.AJ_UsersTable" />
+          <EntitySet Name="atm_ip_address" EntityType="ATMArchiverModel.atm_ip_address" />
+          <EntitySet Name="new_atm_log_path" EntityType="ATMArchiverModel.new_atm_log_path" />
+          <EntitySet Name="runtime_errors" EntityType="ATMArchiverModel.runtime_errors" />
+          <EntitySet Name="WemaBranches" EntityType="ATMArchiverModel.WemaBranch" />
+        </EntityContainer>
+        <EntityType Name="AJ_AuditTrail">
+          <Key>
+            <PropertyRef Name="AuditID" />
+          </Key>
+          <Property Name="AuditID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="FileTitle" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="DBAction" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Description" Type="String" MaxLength="8000" Unicode="false" FixedLength="false" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+          <Property Name="IPAddress" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="AJ_UsersTable">
+          <Key>
+            <PropertyRef Name="UserID" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="BranchorDepartment" />
+            <PropertyRef Name="AccessType" />
+            <PropertyRef Name="UserStatus" />
+            <PropertyRef Name="CreatedBy" />
+            <PropertyRef Name="DateCreated" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
+          <Property Name="BranchorDepartment" Type="String" Nullable="false" MaxLength="150" Unicode="false" FixedLength="false" />
+          <Property Name="AccessType" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="UserStatus" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="DateCreated" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="atm_ip_address">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="ipaddress" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+          <Property Name="branch" Type="String" MaxLength="5" Unicode="true" FixedLength="false" />
+          <Property Name="atm_name" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="terminalid" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="createdby" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="DateCreated" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="new_atm_log_path">
+          <Key>
+            <PropertyRef Name="path_id" />
+          </Key>
+          <Property Name="path_id" Type="Guid" Nullable="false" />
+          <Property Name="branch_code" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="year" Type="String" MaxLength="4" Unicode="true" FixedLength="false" />
+          <Property Name="filename" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="new_file_path" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="ipaddress" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="terminalid" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="datecreated" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="runtime_errors">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Guid" Nullable="false" />
+          <Property Name="message" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="date_created" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="WemaBranch">
+          <Key>
+            <PropertyRef Name="BranchID" />
+            <PropertyRef Name="BranchShortCode" />
+          </Key>
+          <Property Name="BranchID" Type="Int32" Nullable="false" />
+          <Property Name="BranchCode" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="BranchDescription" Type="String" MaxLength="Max" Unicode="false" FixedLength="false" />
+          <Property Name="BranchShortCode" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ATMArchiverModelStoreContainer" CdmEntityContainer="ATMArchiverEntities">
+          <EntitySetMapping Name="AJ_AuditTrail">
+            <EntityTypeMapping TypeName="ATMArchiverModel.AJ_AuditTrail">
+              <MappingFragment StoreEntitySet="AJ_AuditTrail">
+                <ScalarProperty Name="AuditID" ColumnName="AuditID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="FileTitle" ColumnName="FileTitle" />
+                <ScalarProperty Name="DBAction" ColumnName="DBAction" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+                <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AJ_UsersTable">
+            <EntityTypeMapping TypeName="ATMArchiverModel.AJ_UsersTable">
+              <MappingFragment StoreEntitySet="AJ_UsersTable">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="BranchorDepartment" ColumnName="BranchorDepartment" />
+                <ScalarProperty Name="AccessType" ColumnName="AccessType" />
+                <ScalarProperty Name="UserStatus" ColumnName="UserStatus" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="atm_ip_address">
+            <EntityTypeMapping TypeName="ATMArchiverModel.atm_ip_address">
+              <MappingFragment StoreEntitySet="atm_ip_address">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="ipaddress" ColumnName="ipaddress" />
+                <ScalarProperty Name="branch" ColumnName="branch" />
+                <ScalarProperty Name="atm_name" ColumnName="atm_name" />
+                <ScalarProperty Name="terminalid" ColumnName="terminalid" />
+                <ScalarProperty Name="createdby" ColumnName="createdby" />
+                <ScalarProperty Name="DateCreated" ColumnName="DateCreated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="new_atm_log_path">
+            <EntityTypeMapping TypeName="ATMArchiverModel.new_atm_log_path">
+              <MappingFragment StoreEntitySet="new_atm_log_path">
+                <ScalarProperty Name="path_id" ColumnName="path_id" />
+                <ScalarProperty Name="branch_code" ColumnName="branch_code" />
+                <ScalarProperty Name="year" ColumnName="year" />
+                <ScalarProperty Name="filename" ColumnName="filename" />
+                <ScalarProperty Name="new_file_path" ColumnName="new_file_path" />
+                <ScalarProperty Name="ipaddress" ColumnName="ipaddress" />
+                <ScalarProperty Name="terminalid" ColumnName="terminalid" />
+                <ScalarProperty Name="datecreated" ColumnName="datecreated" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="runtime_errors">
+            <EntityTypeMapping TypeName="ATMArchiverModel.runtime_errors">
+              <MappingFragment StoreEntitySet="runtime_errors">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="message" ColumnName="message" />
+                <ScalarProperty Name="date_created" ColumnName="date_created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WemaBranches">
+            <EntityTypeMapping TypeName="ATMArchiverModel.WemaBranch">
+              <MappingFragment StoreEntitySet="WemaBranches">
+                <ScalarProperty Name="BranchID" ColumnName="BranchID" />
+                <ScalarProperty Name="BranchCode" ColumnName="BranchCode" />
+                <ScalarProperty Name="BranchDescription" ColumnName="BranchDescription" />
+                <ScalarProperty Name="BranchShortCode" ColumnName="BranchShortCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
